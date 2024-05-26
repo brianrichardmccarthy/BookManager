@@ -1,4 +1,4 @@
-﻿namespace Repository.Books.Interfaces;
+﻿namespace Repository.Interfaces;
 
 public interface IBookRepository : IBookMutationRepository, IBookQueryRepository {
     

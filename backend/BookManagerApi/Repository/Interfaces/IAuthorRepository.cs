@@ -1,4 +1,4 @@
-﻿namespace Repository.Authors.Interfaces;
+﻿namespace Repository.Interfaces;
 
 public interface IAuthorRepository : IAuthorMutationRepository, IAuthorQueryRepository {
     

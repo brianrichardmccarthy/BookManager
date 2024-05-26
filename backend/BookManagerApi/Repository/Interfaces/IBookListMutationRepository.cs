@@ -1,4 +1,4 @@
-﻿namespace Repository.BookList.Interfaces;
+﻿namespace Repository.Interfaces;
 
 public interface IBookListMutationRepository {
     Task AddAsync(string isbn, CancellationToken cancellationToken);
