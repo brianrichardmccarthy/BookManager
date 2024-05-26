@@ -1,12 +1,13 @@
 using Asp.Versioning;
 using BookManagerApi.Validators;
 using FluentValidation;
-using Repository.Authors.Implementations;
-using Repository.Authors.Interfaces;
-using Repository.BookList.Implementations;
-using Repository.BookList.Interfaces;
-using Repository.Books.Implementations;
-using Repository.Books.Interfaces;
+using Microsoft.EntityFrameworkCore;
+using Repository.Cache.Implementations;
+using Repository.Cache.Interfaces;
+using Repository.Context;
+using Repository.Implementations;
+using Repository.Interfaces;
+using Repository.Models;
 using StackExchange.Redis;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -36,7 +37,13 @@ builder.Services.AddTransient<IAuthorRepository, AuthorRepository>();
 builder.Services.AddTransient<IAuthorMutationRepository, AuthorRepository>();
 builder.Services.AddTransient<IAuthorQueryRepository, AuthorRepository>();
 
-builder.Services.AddSingleton<IConnectionMultiplexer>(_ => ConnectionMultiplexer.Connect(builder.Configuration["RedisConnection"]!));
+builder.Services.AddSingleton<IConnectionMultiplexer>(_ => ConnectionMultiplexer.Connect(builder.Configuration["RedisCache:Configuration"]!));
+builder.Services.AddDbContext<ApplicationContext>(options => {
+                                                      options.UseNpgsql(builder.Configuration["Postgresql"]!);
+                                                  });
+
+builder.Services.AddTransient<ICacheRepository<Author>, CacheRepository<Author>>();
+builder.Services.AddTransient<ICacheRepository<Book>, CacheRepository<Book>>();
 
 var app = builder.Build();
 

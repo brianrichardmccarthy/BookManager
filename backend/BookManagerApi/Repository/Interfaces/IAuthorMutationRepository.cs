@@ -1,6 +1,6 @@
 ﻿using Repository.Models;
 
-namespace Repository.Authors.Interfaces;
+namespace Repository.Interfaces;
 
 public interface IAuthorMutationRepository {
     Task<Guid> CreateAsync(Author author, CancellationToken cancellationToken);
